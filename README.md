@@ -1,7 +1,7 @@
 # Repo Cloner
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-This program clones multiple GitHub repositories. 
+Downloads remote repositories (GitHub, GitLab, BitBucket) based on a JSON file. 
 
 - [Providing the repositories](#providing-the-repositories)
 - [Installation](#installation)
