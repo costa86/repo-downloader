@@ -62,6 +62,17 @@ It clones each repository into the specified local folder.
 
 The program was built in Go, which takes advantage of the Goroutines to clone repositories concurrently. This maximizes throughput by cloning them simultaneously.
 
+# Build from source
+Will generate the executables for Windows, Linux and MacOS
+
+Requirements:
+
+* Go (check version in [go.mod](go.mod))
+* Make
+
+Command:
+
+    make build
 
 # Links
 [![portfolio](https://img.shields.io/badge/my_portfolio-030?style=for-the-badge&logo=ko-fi&logoColor=yellow)](https://costa86.tech/)
