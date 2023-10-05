@@ -71,21 +71,10 @@ func getRepos(repoFile string) []Repo {
 	return repos
 }
 
-// func downloadRepo(repo Repo, username string, password string) {
-// 	auth := &http.BasicAuth{
-// 		Username: username,
-// 		Password: password,
-// 	}
-// 	_, err := git.PlainClone(repo.Folder, false, &git.CloneOptions{URL: repo.Url, Progress: os.Stdout, Auth: auth})
-// 	if err != nil {
-// 		print(err)
-// 		os.Exit(1)
-// 	}
-// }
-
 func downloadRepo(repo Repo, username string, password string) {
-	if username != "" {
+	authRequired := (username != "") || (password != "")
 
+	if authRequired {
 		auth := &http.BasicAuth{
 			Username: username,
 			Password: password,
@@ -93,15 +82,16 @@ func downloadRepo(repo Repo, username string, password string) {
 		_, err := git.PlainClone(repo.Folder, false, &git.CloneOptions{URL: repo.Url, Progress: os.Stdout, Auth: auth})
 		if err != nil {
 			print(err)
+			os.Remove(repo.Folder)
 			os.Exit(1)
 		}
-
-	} else {
-		_, err := git.PlainClone(repo.Folder, false, &git.CloneOptions{URL: repo.Url, Progress: os.Stdout})
-		if err != nil {
-			print(err)
-			os.Exit(1)
-		}
+		return
+	}
+	_, err := git.PlainClone(repo.Folder, false, &git.CloneOptions{URL: repo.Url, Progress: os.Stdout})
+	if err != nil {
+		print(err)
+		os.Remove(repo.Folder)
+		os.Exit(1)
 	}
 
 }
