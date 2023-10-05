@@ -3,6 +3,13 @@
 
 This program clones multiple GitHub repositories. 
 
+- [Providing the repositories](#providing-the-repositories)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Concurrent cloning](#concurrent-cloning)
+- [Links](#links)
+
+
 # Providing the repositories
 The program takes a JSON file that defines the repositories to be cloned. Use [repos.json](repos.json) as a template.
 
@@ -19,9 +26,16 @@ The program takes a JSON file that defines the repositories to be cloned. Use [r
 ]
 ```
 
-# Usage
-Just run the executable, providing the required arguments.
+# Installation
+No installation required. Just run the executable providing the required arguments.
 
+|OS|Executable|
+|--|--|
+|Windows|[repo-download-windows.exe](repo-download-windows.exe)|
+|Linux|[repo-download-linux](repo-download-linux)|
+|MacOS|[repo-download-darwin](repo-download-darwin)|
+
+# Usage
 
 **Option 1: file**
 
@@ -42,15 +56,6 @@ This option is more suitable for CI/CD pipelines, where the password can be pass
     ./repo-download-linux <json_file> <username> <password>
 
 
-    
-
-|OS|Executable|
-|--|--|
-|Windows|[repo-download-windows.exe](repo-download-windows.exe)|
-|Linux|[repo-download-linux](repo-download-linux)|
-|MacOS|[repo-download-darwin](repo-download-darwin)|
-
-
 It clones each repository into the specified local folder.
 
 # Concurrent cloning
@@ -58,7 +63,7 @@ It clones each repository into the specified local folder.
 The program was built in Go, which takes advantage of the Goroutines to clone repositories concurrently. This maximizes throughput by cloning them simultaneously.
 
 
-## 🔗 Links
+# Links
 [![portfolio](https://img.shields.io/badge/my_portfolio-030?style=for-the-badge&logo=ko-fi&logoColor=yellow)](https://costa86.tech/)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/costa86/)
 
