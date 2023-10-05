@@ -20,9 +20,29 @@ The program takes a JSON file that defines the repositories to be cloned. Use [r
 ```
 
 # Usage
-Just run the executable, providing the JSON file as the first parameter. Like so:
+Just run the executable, providing the required arguments.
+
+
+**Option 1: file**
+
+This is an option when no credentials are required
+
+    ./repo-download-linux <json_file>
+
+**Option 2: file + username**
+
+In this case, the user will be prompted for a password (***)
+
+    ./repo-download-linux <json_file> <username>
+
+**Option 3: file + username + password**
+
+This option is more suitable for CI/CD pipelines, where the password can be passed via some mechanism that manages sensitive variables, such as Jenkins.
+
+    ./repo-download-linux <json_file> <username> <password>
+
+
     
-    ./repo-download-linux repos.json
 
 |OS|Executable|
 |--|--|

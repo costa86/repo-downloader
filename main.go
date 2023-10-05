@@ -43,10 +43,17 @@ func getParameters(args []string) UserParameters {
 		userParameters.RepoFile = args[1]
 		userParameters.Username = args[2]
 		userParameters.Password = string(pwd)
+	case 2:
+		userParameters.RepoFile = args[1]
+		userParameters.Username = ""
+		userParameters.Password = ""
 
 	default:
-		print("either 2 or 3 arguments are expected (file + username + password, or file + username)")
-		print("File structure is: [{\"folder\":\"folderName\":\"url\":\"repoUrl\"}]")
+		print("Invalid number of arguments. Options:")
+		print("1 argument (no credentials required): <filename>")
+		print("2 arguments: <filename> <username>")
+		print("3 arguments: <filename> <username> <password>")
+		print("filename structure is: [{\"folder\":\"folderName\":\"url\":\"repoUrl\"}]")
 		os.Exit(1)
 	}
 
@@ -64,16 +71,39 @@ func getRepos(repoFile string) []Repo {
 	return repos
 }
 
+// func downloadRepo(repo Repo, username string, password string) {
+// 	auth := &http.BasicAuth{
+// 		Username: username,
+// 		Password: password,
+// 	}
+// 	_, err := git.PlainClone(repo.Folder, false, &git.CloneOptions{URL: repo.Url, Progress: os.Stdout, Auth: auth})
+// 	if err != nil {
+// 		print(err)
+// 		os.Exit(1)
+// 	}
+// }
+
 func downloadRepo(repo Repo, username string, password string) {
-	auth := &http.BasicAuth{
-		Username: username,
-		Password: password,
+	if username != "" {
+
+		auth := &http.BasicAuth{
+			Username: username,
+			Password: password,
+		}
+		_, err := git.PlainClone(repo.Folder, false, &git.CloneOptions{URL: repo.Url, Progress: os.Stdout, Auth: auth})
+		if err != nil {
+			print(err)
+			os.Exit(1)
+		}
+
+	} else {
+		_, err := git.PlainClone(repo.Folder, false, &git.CloneOptions{URL: repo.Url, Progress: os.Stdout})
+		if err != nil {
+			print(err)
+			os.Exit(1)
+		}
 	}
-	_, err := git.PlainClone(repo.Folder, false, &git.CloneOptions{URL: repo.Url, Progress: os.Stdout, Auth: auth})
-	if err != nil {
-		print(err)
-		os.Exit(1)
-	}
+
 }
 
 func main() {
