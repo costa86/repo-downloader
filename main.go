@@ -6,8 +6,12 @@ import (
 	"os"
 	"sync"
 
+	"syscall"
+
 	"github.com/go-git/go-git/v5/plumbing/transport/http"
 	"gopkg.in/src-d/go-git.v4"
+
+	"golang.org/x/term"
 )
 
 var print = fmt.Println
@@ -15,6 +19,39 @@ var print = fmt.Println
 type Repo struct {
 	Folder string `json:"folder"`
 	Url    string `json:"url"`
+}
+
+type UserParameters struct {
+	Username, Password, RepoFile string
+}
+
+func getParameters(args []string) UserParameters {
+	var userParameters UserParameters
+
+	switch len(args) {
+	case 4:
+		userParameters.RepoFile = args[1]
+		userParameters.Username = args[2]
+		userParameters.Password = args[3]
+
+	case 3:
+		fmt.Println("Enter password:")
+		pwd, err := term.ReadPassword(int(syscall.Stdin))
+		if err != nil {
+			panic(err)
+		}
+		userParameters.RepoFile = args[1]
+		userParameters.Username = args[2]
+		userParameters.Password = string(pwd)
+
+	default:
+		print("either 2 or 3 arguments are expected (file + username + password, or file + username)")
+		print("File structure is: [{\"folder\":\"folderName\":\"url\":\"repoUrl\"}]")
+		os.Exit(1)
+	}
+
+	return userParameters
+
 }
 
 func getRepos(repoFile string) []Repo {
@@ -39,26 +76,11 @@ func downloadRepo(repo Repo, username string, password string) {
 	}
 }
 
-// func downloadRepo(repo Repo) {
-// 	_, err := git.PlainClone(repo.Folder, false, &git.CloneOptions{URL: repo.Url, Progress: os.Stdout})
-// 	if err != nil {
-// 		print(err)
-// 		os.Exit(1)
-// 	}
-// }
-
 func main() {
 
-	args := os.Args
-	if len(args) != 4 {
-		print("JSON file is missing. File structure is: [{\"folder\":\"folderName\":\"url\":\"repoUrl\"}]")
-		os.Exit(1)
-	}
-	jsonFile := args[1]
-	username := args[2]
-	password := args[3]
+	userParameters := getParameters(os.Args)
 
-	projects := getRepos(jsonFile)
+	projects := getRepos(userParameters.RepoFile)
 	var wg sync.WaitGroup
 	wg.Add(len(projects))
 
@@ -66,7 +88,7 @@ func main() {
 		v := v
 		i := i + 1
 		go func() {
-			downloadRepo(v, username, password)
+			downloadRepo(v, userParameters.Username, userParameters.Password)
 			print(i, "/", len(projects), ":", v.Url, "downloaded to", v.Folder)
 			defer wg.Done()
 		}()

@@ -4,6 +4,7 @@ go 1.21.1
 
 require (
 	github.com/go-git/go-git/v5 v5.9.0
+	golang.org/x/term v0.12.0
 	gopkg.in/src-d/go-git.v4 v4.13.1
 )
 
