@@ -37,23 +37,38 @@ No installation required. Just run the executable providing the required argumen
 
 # Usage
 
+Run it with -help
+
+    ./repo-download -help
+
+Output
+
+    Usage of ./repo-download:
+    -file string
+            JSON file with repositories (default "repos.json")
+    -password string
+            password (case authentication is required)
+    -username string
+            username (case authentication is required)
+
+
 **Option 1: file**
 
 This is an option when no credentials are required
 
-    ./repo-download-linux <json_file>
+    ./repo-download-linux -file <json_file>
 
 **Option 2: file + username**
 
 In this case, the user will be prompted for a password (***)
 
-    ./repo-download-linux <json_file> <username>
+    ./repo-download-linux -file <json_file> -username <username>
 
 **Option 3: file + username + password**
 
 This option is more suitable for CI/CD pipelines, where the password can be passed via some mechanism that manages sensitive variables, such as Jenkins.
 
-    ./repo-download-linux <json_file> <username> <password>
+    ./repo-download-linux -file <json_file> -usename <username> -password <password>
 
 
 It clones each repository into the specified local folder.
