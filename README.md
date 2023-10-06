@@ -39,11 +39,11 @@ No installation required. Just run the executable providing the required argumen
 
 Run it with -help
 
-    ./repo-download -help
+    ./repo-download-linux -help
 
 Output
 
-    Usage of ./repo-download:
+    Usage of ./repo-download-linux:
     -file string
             JSON file with repositories (default "repos.json")
     -password string
