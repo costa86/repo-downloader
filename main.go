@@ -49,11 +49,13 @@ func getParameters(args []string) UserParameters {
 		userParameters.Password = ""
 
 	default:
-		print("Invalid number of arguments. Options:")
-		print("1 argument (no credentials required): <filename>")
-		print("2 arguments: <filename> <username>")
-		print("3 arguments: <filename> <username> <password>")
-		print("filename structure is: [{\"folder\":\"folderName\":\"url\":\"repoUrl\"}]")
+		print(`
+Invalid number of arguments. Options:	
+1 argument (no credentials required): <filename> 
+2 arguments: <filename> <username>
+3 arguments: <filename> <username> <password>
+filename structure is a JSON: [{"folder":"folderName":"url":"repoUrl"}]
+		`)
 		os.Exit(1)
 	}
 
