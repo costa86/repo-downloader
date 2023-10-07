@@ -13,6 +13,10 @@ Downloads remote repositories (GitHub, GitLab, BitBucket) based on a JSON file.
 # Providing the repositories
 The program takes a JSON file that defines the repositories to be cloned. Use [repos.json](repos.json) as a template.
 
+⚠️ Valid repositories must start with "http", "https", "git" or "ssh", and end with ".git".
+
+Here's a template example:
+
 ```json
 [
     {
@@ -21,7 +25,7 @@ The program takes a JSON file that defines the repositories to be cloned. Use [r
     },
     {
         "folder": "coppy",
-        "url": "https://github.com/costa86/coppy"
+        "url": "https://github.com/costa86/coppy.git"
     }
 ]
 ```
