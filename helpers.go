@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"regexp"
 	"syscall"
 
 	"github.com/go-git/go-git/v5/plumbing/transport/http"
@@ -17,6 +18,17 @@ var print = fmt.Println
 type Repo struct {
 	Folder string `json:"folder"`
 	Url    string `json:"url"`
+}
+
+// Checks if the URL is a valid git repository via regex (git, ssh, http, https)
+func (r *Repo) ValidateUrl() {
+	gitRepoRegex := regexp.MustCompile(`^((git|ssh|http(s)?)|(git@[\w\.]+))(:(//)?)([\w\.@\:/\-~]+)(\.git)(/)?$`)
+	isValid := gitRepoRegex.MatchString(r.Url)
+
+	if !isValid {
+		print("Unrecognized git URL:", r.Url)
+		os.Exit(1)
+	}
 }
 
 type UserParameters struct {
@@ -66,6 +78,11 @@ func getRepos(repoFile string) []Repo {
 		os.Exit(1)
 	}
 	json.NewDecoder(content).Decode(&repos)
+
+	for _, v := range repos {
+		v.ValidateUrl()
+	}
+
 	return repos
 }
 
