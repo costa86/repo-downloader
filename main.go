@@ -2,12 +2,12 @@ package main
 
 import (
 	"flag"
+	"runtime"
 	"sync"
 )
 
-const maxWorkers = 10
-
 func main() {
+	maxWorkers := runtime.NumCPU()
 
 	var (
 		file,
