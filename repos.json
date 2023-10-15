@@ -6,5 +6,21 @@
     {
         "folder": "coppy",
         "url": "https://github.com/costa86/coppy.git"
+    },
+    {
+        "folder": "cli-manager",
+        "url": "git@github.com:costa86/cli-manager.git"
+    },
+    {
+        "folder": "tf-plugin",
+        "url": "git@github.com:costa86/terraform-plugin-sample.git"
+    },
+    {
+        "folder": "portfolio",
+        "url": "git@github.com:costa86/portfolio.git"
+    },
+    {
+        "folder": "bank-api",
+        "url": "git@github.com:costa86/bank-api.git"
     }
 ]

@@ -5,6 +5,8 @@ import (
 	"sync"
 )
 
+const maxWorkers = 10
+
 func main() {
 
 	var (
@@ -22,16 +24,23 @@ func main() {
 	projects := getRepos(file)
 	var wg sync.WaitGroup
 	wg.Add(len(projects))
+	projectChan := make(chan Repo, len(projects))
+	defer close(projectChan)
 
-	for i, v := range projects {
-		v := v
-		i := i + 1
+	for _, v := range projects {
+		projectChan <- v
+	}
+
+	for i := 0; i < maxWorkers; i++ {
 		go func() {
-			downloadRepo(v, username, password)
-			print(i, "/", len(projects), ":", v.Url, "downloaded to", v.Folder)
-			defer wg.Done()
+			for v := range projectChan {
+				downloadRepo(v, username, password)
+				print(v.Url, "downloaded to", v.Folder)
+				wg.Done()
+			}
 		}()
 	}
+
 	wg.Wait()
 
 }
